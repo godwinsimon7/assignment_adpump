@@ -1,0 +1,41 @@
+Build Docker Images: 
+
+ 
+
+docker build -f Dockerfile.server -t server . 
+
+docker build -f Dockerfile.client -t ship-proxy . 
+
+ 
+
+ 
+
+ 
+
+————————————————————— 
+
+ 
+
+ 
+
+Run the server: 
+
+ 
+
+docker run -d --name server -p 9090:9090 server 
+
+ 
+
+Run the client (connection to server) 
+
+docker run -d --name ship-proxy -p 8080:8080 --link server ship-proxy 
+
+ 
+
+ 
+
+Curl command: 
+
+ 
+
+curl.exe -x http://localhost:8080 http://httpforever.com/ 
