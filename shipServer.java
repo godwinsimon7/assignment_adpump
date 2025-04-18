@@ -42,11 +42,12 @@ public class shipServer {
                 writerToProxy.flush();
 
                 StringBuilder serverResponse = new StringBuilder();
-                String proxyLine;
-                while ((proxyLine = readerFromProxy.readLine()) != null && !proxyLine.isEmpty()) {
-                    serverResponse.append(proxyLine).append("\n");
+                char[] buffer = new char[8192];
+                int charsRead;
+                while ((charsRead = readerFromProxy.read(buffer)) != -1) {
+                    serverResponse.append(buffer, 0, charsRead);
+                    if (charsRead < buffer.length) break; 
                 }
-
 
                 clientOutput.write("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n");
                 clientOutput.write(serverResponse.toString());
